@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+<table style="border: 2px solid black; background-color: cadetblue;">
+    <tr style="border: 2px solid black">
+        <th>Name</th>
+        <th>Class</th>
+        <th>Age</th>
+    </tr>
+        <% for(let data of alldata){ %> 
+    <tr>
+        <td><%= data.name %></td>
+        <td><%= data.class %></td>
+        <td><%= data.age %></td>
+    </tr>
+        <% } %>
+</table>
+
+    </div>
+</body>
+</html>
