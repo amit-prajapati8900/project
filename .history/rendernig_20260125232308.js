@@ -34,6 +34,7 @@ app.post("/delete/:id", async(req,res)=>{
    await Data.findByIdAndDelete(id);
    res.redirect("/home");
 })
+
 app.listen(2000,()=>{
    console.log("express is working");
 });

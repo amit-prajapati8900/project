@@ -32,7 +32,7 @@ app.get("/home", async (req, res) => {
 app.post("/delete/:id", async(req,res)=>{
    let {id} = req.params;
    await Data.findByIdAndDelete(id);
-   res.redirect("/home");
+   res.redirect("/homw");
 })
 app.listen(2000,()=>{
    console.log("express is working");

@@ -19,11 +19,9 @@
         <td><%= data.name %></td>
         <td><%= data.class %></td>
         <td><%= data.age %></td>
-        <td>
-        <form action="/delete/<%= data._id %>" method="post">
-         <button>delete</button>
-        </form></td> 
-    </tr> 
+    </tr>
+     <form action="/delete/<%= data._id %>" method="post"> <button type="submit">Delete</button> 
+    </form>
     <% } %>
 </table>
     </div>
