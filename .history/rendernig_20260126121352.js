@@ -37,25 +37,16 @@ app.post("/delete/:id", async(req,res)=>{
 app.get("/new",((req,res)=>{
    res.render("new.ejs");
 }));
+
 app.post("/newdata",(req,res)=>{
    let {name,deg,age} = req.body;
    const alldata = Data({name,deg,age});
    alldata.save();
    res.redirect("/home");
-});
-app.get("/update/:id", async (req, res) => {
-    let { id } = req.params;
-    const record = await Data.findById(id);
-    res.render("update.ejs", { data: record });
-});
-app.post("/update/:id",async(req,res)=>{
-   let {id} = req.params;
-   let {name,deg,age} = req.body;
-   const ins =await Data.findByIdAndUpdate(id,{name,deg,age});
-   ins.save();
-   res.redirect("/home");
 })
-
+app.get("/update/:id",(req,res)=>{
+res.render("update.ejs");
+});
 app.listen(2000,()=>{
    console.log("express is working");
 });

@@ -10,8 +10,10 @@
         <form action="/new" method="get">
             <button type="submit">submit</button>
         </form>
+<table style="border: 2px solid black; background-color: cadetblue;">
+   
         <% for(let data of alldata){ %> 
-        <a href="/update/<%= data._id %>" method="get">
+        <a href="">
         <%= data._id %>
         <br>
         <%= data.name %>

@@ -43,19 +43,12 @@ app.post("/newdata",(req,res)=>{
    alldata.save();
    res.redirect("/home");
 });
-app.get("/update/:id", async (req, res) => {
-    let { id } = req.params;
-    const record = await Data.findById(id);
-    res.render("update.ejs", { data: record });
-});
-app.post("/update/:id",async(req,res)=>{
-   let {id} = req.params;
-   let {name,deg,age} = req.body;
-   const ins =await Data.findByIdAndUpdate(id,{name,deg,age});
-   ins.save();
-   res.redirect("/home");
-})
+app.get("/update/:id",(req,res)=>{
+   // let {name,deg,age} = req.body;
+   // let {id} = req.params;
 
+res.render("update.ejs",{data:Data});
+});
 app.listen(2000,()=>{
    console.log("express is working");
 });

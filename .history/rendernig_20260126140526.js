@@ -51,9 +51,10 @@ app.get("/update/:id", async (req, res) => {
 app.post("/update/:id",async(req,res)=>{
    let {id} = req.params;
    let {name,deg,age} = req.body;
-   const ins =await Data.findByIdAndUpdate(id,{name,deg,age});
+   const ins =await Data.findByIdAndUpdate({id},{name,deg,age});
    ins.save();
-   res.redirect("/home");
+   res.redirect("/home")
+
 })
 
 app.listen(2000,()=>{

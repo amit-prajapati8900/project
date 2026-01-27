@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+   <form action="newdata" method="post">
+        <label for="name">Name</label>
+        <input type="text"id="name" name="name" value="<%= data._name %>">
+        <br>
+        <label for="deg">Deg</label>
+        <input type="text"id="deg" name="deg" value="<%= data.deg %>">
+        <br>
+        <label for="age">Age</label>
+        <input type="number"id="number" name="age" value="<%= data.age %>"
+        <br>
+        <button type="submit">submit</button>
+    </form>
+</body>
+</html>

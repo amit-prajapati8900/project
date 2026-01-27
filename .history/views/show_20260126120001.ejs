@@ -10,16 +10,13 @@
         <form action="/new" method="get">
             <button type="submit">submit</button>
         </form>
+<table style="border: 2px solid black; background-color: cadetblue;">
+   
         <% for(let data of alldata){ %> 
-        <a href="/update/<%= data._id %>" method="get">
         <%= data._id %>
-        <br>
         <%= data.name %>
-        <br>
         <%= data.deg %>
-        <br>
         <%= data.age %>
-        </a>
         <form action="/delete/<%= data._id %>" method="post">
          <button>delete</button>
         </form>
