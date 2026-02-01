@@ -1,0 +1,8 @@
+const Joi = require("joi");
+
+const userSchema = Joi.object({
+    name:Joi.string().min(2).max(10).required,
+    deg:Joi.string().min(2).max(20).required,
+    age:Joi.number().min(0).max(3).required
+})
+module.exports = userSchema;
