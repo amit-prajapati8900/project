@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>All Posts - Modern View</title>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- For better font + icons (optional but looks premium) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+  <style>
+    .card-hover {
+      transition: all 0.3s ease;
+    }
+    .card-hover:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+    .gradient-header {
+      background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+    }
+  </style>
+</head>
+<body class="bg-gray-50 min-h-screen font-sans antialiased">
+
+  <!-- Navbar (you can keep your partials/navbar.ejs here) -->
+  <%- include('partials/navbar') %>
+
+  <!-- Main Container -->
+  <div class="flex flex-col min-h-screen">
+
+    <!-- Header / Hero section -->
+    <header class="gradient-header text-white">
+      <div class="container mx-auto px-6 py-10 md:py-16">
+        <div class="flex flex-col md:flex-row justify-between items-center">
+          <div>
+            <h1 class="text-4xl md:text-5xl font-bold">All Profiles</h1>
+            <p class="mt-3 text-blue-100 text-lg">Discover and explore amazing people</p>
+          </div>
+          <a href="/api/new" 
+             class="mt-6 md:mt-0 inline-flex items-center px-6 py-3 bg-white text-blue-600 font-semibold rounded-full shadow-lg hover:bg-blue-50 transition">
+            <i class="fas fa-plus mr-2"></i> Add New Profile
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-1 container mx-auto px-6 py-10">
+
+      <!-- Flash messages -->
+      <%- include("partials/flash.ejs") %>
+
+      <!-- Debug (remove in production) -->
+      <div class="mb-8 p-4 bg-blue-50 border border-blue-200 rounded-xl text-sm">
+        <strong>Debug Info:</strong><br>
+        Logged in as: <strong><%= currentUser ? (currentUser.username || currentUser.email || 'No name') : 'Not logged in' %></strong>  
+        | User ID: <strong><%= currentUser ? currentUser._id : 'No ID' %></strong>
+      </div>
+
+      <!-- Cards Grid -->
+      <% if (alldata && alldata.length > 0) { %>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+
+          <% alldata.forEach(data => { %>
+            <div class="bg-white rounded-2xl shadow-md overflow-hidden card-hover">
+
+              <!-- Image / Placeholder -->
+              <% if (data.img && data.img.url) { %>
+                <img src="<%= data.img.url %>" 
+                     class="w-full h-56 object-cover" 
+                     alt="<%= data.name || 'Profile' %>">
+              <% } else { %>
+                <div class="w-full h-56 bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center text-gray-500">
+                  <i class="fas fa-user text-6xl opacity-50"></i>
+                </div>
+              <% } %>
+
+              <!-- Content -->
+              <div class="p-6">
+                <h5 class="text-xl font-bold text-gray-800 mb-2">
+                  <%= data.name || 'Unknown Profile' %>
+                </h5>
+
+                <div class="space-y-2 text-gray-600 mb-5">
+                  <p><i class="fas fa-graduation-cap mr-2 text-blue-500"></i> <%= data.deg || '—' %></p>
+                  <p><i class="fas fa-birthday-cake mr-2 text-pink-500"></i> <%= data.age || '—' %> years</p>
+                  <p class="text-sm text-gray-500">
+                    Posted by <strong><%= data.owner?.username || data.owner?.email || 'Unknown' %></strong>
+                  </p>
+                </div>
+
+                <!-- Owner Controls -->
+                <% if (currentUser && data.owner && currentUser._id && data.owner._id && currentUser._id.toString() === data.owner._id.toString()) { %>
+                  <div class="flex gap-3 mt-4">
+                    <a href="/api/update/<%= data._id %>" 
+                       class="flex-1 inline-flex justify-center items-center px-4 py-2 bg-yellow-100 text-yellow-700 font-medium rounded-lg hover:bg-yellow-200 transition">
+                      <i class="fas fa-edit mr-2"></i> Update
+                    </a>
+                    <form action="/api/delete/<%= data._id %>?_method=DELETE" method="POST" class="flex-1">
+                      <button type="submit" 
+                              onclick="return confirm('Really delete this profile?')"
+                              class="w-full inline-flex justify-center items-center px-4 py-2 bg-red-100 text-red-700 font-medium rounded-lg hover:bg-red-200 transition">
+                        <i class="fas fa-trash-alt mr-2"></i> Delete
+                      </button>
+                    </form>
+                  </div>
+                <% } else { %>
+                  <div class="mt-4 text-center text-sm text-gray-500 italic">
+                    View only
+                  </div>
+                <% } %>
+              </div>
+            </div>
+          <% }) %>
+
+        </div>
+      <% } else { %>
+        <div class="text-center py-20 bg-white rounded-2xl shadow">
+          <i class="fas fa-folder-open text-6xl text-gray-300 mb-4"></i>
+          <h3 class="text-2xl font-semibold text-gray-600 mb-2">No profiles yet</h3>
+          <p class="text-gray-500 mb-6">Be the first one to create a profile!</p>
+          <a href="/api/new" class="inline-flex items-center px-6 py-3 bg-blue-600 text-white font-semibold rounded-full shadow-lg hover:bg-blue-700 transition">
+            <i class="fas fa-plus mr-2"></i> Create First Profile
+          </a>
+        </div>
+      <% } %>
+
+    </main>
+
+    <!-- Footer (your partial) -->
+    <%- include('partials/footer') %>
+
+  </div>
+
+</body>
+</html>

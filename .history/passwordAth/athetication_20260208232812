@@ -1,0 +1,9 @@
+const athetication = ((req,res,next)=>{
+if(!req.isAuthenticated()){
+      req.flash("error","log in before using");
+      res.redirect("/api/logIn");
+    return res.redirect("/api/home");
+   };
+   next();
+}); 
+

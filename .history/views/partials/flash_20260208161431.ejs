@@ -1,0 +1,18 @@
+<!-- flash -->
+    <!-- Submit button -->
+  <!-- addnew data -->
+  <% if (successMSG && successMSG.length > 0) { %>
+  <div class="alert alert-success"><%= successMSG[0] %></div>
+<% } %>
+
+<% if (errorMSG && error.length > 0) { %>
+  <div class="alert alert-danger"><%= errorMSG[0] %></div>
+<% } %>
+
+<% if (Delete && Delete.length > 0) { %>
+  <div class="alert alert-danger"><%= Delete[0] %></div>
+<% } %>
+
+<% if (Update && Update.length > 0) { %>
+  <div class="alert alert-warning"><%= Update[0] %></div>
+<% } %>

@@ -1,0 +1,33 @@
+<!-- flash -->
+<% layout('./boilerplat/layout.ejs') %>
+
+    <form action="/api/new" method="get" class="mb-3">
+      <button type="submit" class="btn btn-danger">Add New</button>
+    </form>
+    <!-- this flash message -->
+<%- include("partials/flash.ejs") %>
+    <!-- Responsive grid for cards -->
+    <div class="row">
+      <% for(let data of alldata){ %>
+        <div class="col-12 col-md-6 col-lg-4 mb-4">
+          <div class="card h-100 shadow-sm">
+            <img src="<%= data.img %>" class="card-img-top" alt="User Image">
+            <div class="card-body">
+              <h5 class="card-title"><%= data.name %></h5>
+              <p class="card-text">
+                <strong>ID:</strong> <%= data._id %><br>
+                <strong>Deg:</strong> <%= data.deg %><br>
+                <strong>Age:</strong> <%= data.age %>
+              </p>
+              <a href="/api/update/<%= data._id %>" class="btn btn-sm btn-warning">Update</a>
+              <form action="/api/delete/<%= data._id %>?_method=DELETE" method="post" class="d-inline">
+                <button class="btn btn-sm btn-danger">Delete</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      <% } %>
+    </div>
+  </div>
+
+  

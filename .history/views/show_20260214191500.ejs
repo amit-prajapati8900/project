@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Community Hub - Home</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .image-hover {
+      transition: all 0.4s ease;
+    }
+    .image-hover:hover {
+      transform: scale(1.08);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+    }
+    .overlay {
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+    .image-hover:hover .overlay {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 min-h-screen font-sans antialiased">
+
+  <div class="flex h-screen overflow-hidden">
+
+    <!-- Sidebar -->
+    <aside class="hidden md:block w-64 bg-white/80 backdrop-blur-md shadow-xl border-r border-white/30">
+      <div class="p-6">
+        <h1 class="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+          Community Hub
+        </h1>
+      </div>
+      <nav class="mt-8">
+        <ul class="space-y-1 px-4">
+          <li><a href="/" class="flex items-center px-4 py-3 bg-gradient-to-r from-indigo-50 to-purple-50 text-indigo-700 rounded-lg font-medium"><span class="mr-3 text-lg">🏠</span> Home</a></li>
+          <li><a href="/api" class="flex items-center px-4 py-3 text-gray-700 hover:bg-white/50 rounded-lg transition"><span class="mr-3 text-lg">📝</span> All Posts</a></li>
+          <li><a href="/api/new" class="flex items-center px-4 py-3 text-gray-700 hover:bg-white/50 rounded-lg transition"><span class="mr-3 text-lg">➕</span> Add New</a></li>
+          <li><a href="/profile" class="flex items-center px-4 py-3 text-gray-700 hover:bg-white/50 rounded-lg transition"><span class="mr-3 text-lg">👤</span> Profile</a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="flex-1 flex flex-col overflow-hidden">
+
+      <!-- Top Navbar with Login/SignUp -->
+      <header class="bg-white/80 backdrop-blur-md shadow-sm border-b border-white/30 z-10">
+        <div class="flex items-center justify-between px-6 py-4">
+          <div class="flex items-center gap-4">
+            <button class="md:hidden text-gray-600 focus:outline-none">
+              <svg class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            </button>
+            <h2 class="text-xl font-semibold text-gray-800">Home</h2>
+          </div>
+
+          <div class="flex items-center gap-4">
+            <% if (!currentUser) { %>
+              <a href="/login" class="px-5 py-2.5 bg-indigo-600 text-white rounded-lg font-medium hover:bg-indigo-700 transition shadow-md">
+                Sign In
+              </a>
+              <a href="/signup" class="px-5 py-2.5 bg-purple-600 text-white rounded-lg font-medium hover:bg-purple-700 transition shadow-md">
+                Sign Up
+              </a>
+            <% } else { %>
+              <a href="/api/new" class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-5 py-2.5 rounded-lg font-medium hover:brightness-110 transition shadow-md">
+                + Share Your Story
+              </a>
+              <div class="flex items-center gap-3">
+                <img class="h-10 w-10 rounded-full ring-2 ring-indigo-400/50 object-cover"
+                     src="https://ui-avatars.com/api/?name=<%= currentUser.username || 'Prajapati' %>&background=6D28D9&color=fff"
+                     alt="User"/>
+                <div class="hidden sm:block">
+                  <p class="font-medium text-gray-800 text-sm"><%= currentUser.username || 'Prajapati' %></p>
+                  <p class="text-xs text-gray-500">Adventurer</p>
+                </div>
+              </div>
+            <% } %>
+          </div>
+        </div>
+      </header>
+
+      <!-- Hero Banner -->
+      <section class="relative h-80 md:h-96 bg-cover bg-center flex items-center justify-center text-white overflow-hidden"
+               style="background-image: url('https://thumbs.dreamstime.com/b/man-looking-mountain-valley-low-clouds-colorful-sunset-sporty-man-mountain-peak-looking-mountain-valley-130804722.jpg');">
+        <div class="absolute inset-0 bg-black/45"></div>
+        <div class="relative z-10 text-center px-6">
+          <h1 class="text-4xl md:text-5xl font-bold mb-4 drop-shadow-lg">Welcome to Himalayan Adventures</h1>
+          <p class="text-lg md:text-xl mb-6 max-w-2xl mx-auto drop-shadow-md">
+            Share your stories, photos, and journeys with the community
+          </p>
+          <a href="/api/new" class="inline-block bg-white text-indigo-700 px-8 py-3 rounded-full font-semibold hover:bg-indigo-100 transition shadow-lg">
+            Start Sharing →
+          </a>
+        </div>
+      </section>
+
+      <!-- Gallery Section -->
+      <section class="p-6 md:p-10">
+        <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">Moments Like Yours</h2>
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+
+          <!-- Image 1: Arms out vibe -->
+          <div class="relative rounded-2xl overflow-hidden shadow-2xl image-hover group">
+            <img src="https://thumbs.dreamstime.com/b/man-looking-mountain-valley-low-clouds-colorful-sunset-sporty-man-mountain-peak-looking-mountain-valley-130804722.jpg"
+                 class="w-full h-64 object-cover" alt="Arms outstretched in valley">
+            <div class="overlay absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent flex items-end p-6">
+              <div class="text-white">
+                <p class="font-semibold text-lg">Arms Wide Open</p>
+                <p class="text-sm opacity-90">Pure freedom in the hills</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Image 2: Sitting on rock -->
+          <div class="relative rounded-2xl overflow-hidden shadow-2xl image-hover group">
+            <img src="https://www.shutterstock.com/shutterstock/photos/408405955/display_1500/stock-photo-young-hiker-in-black-pants-and-shirt-is-sitting-on-cliff-s-edge-and-looking-to-misty-hilly-valley-408405955.jpg"
+                 class="w-full h-64 object-cover" alt="Sitting on cliff edge">
+            <div class="overlay absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent flex items-end p-6">
+              <div class="text-white">
+                <p class="font-semibold text-lg">Peaceful Summit</p>
+                <p class="text-sm opacity-90">Thinking in the mist</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Image 3: Scooter ride vibe -->
+          <div class="relative rounded-2xl overflow-hidden shadow-2xl image-hover group">
+            <img src="https://c8.alamy.com/comp/RAKD0F/man-riding-his-motorbike-on-a-mountain-road-carrying-a-package-ha-giang-loop-ha-giang-province-vietnam-asia-RAKD0F.jpg"
+                 class="w-full h-64 object-cover" alt="Riding scooter on mountain road">
+            <div class="overlay absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent flex items-end p-6">
+              <div class="text-white">
+                <p class="font-semibold text-lg">Road to Adventure</p>
+                <p class="text-sm opacity-90">Green hills calling</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Image 4: Foggy town -->
+          <div class="relative rounded-2xl overflow-hidden shadow-2xl image-hover group">
+            <img src="https://bohemiantraveler.com/wp-content/uploads/2013/07/View-over-Shimla-India.jpg"
+                 class="w-full h-64 object-cover" alt="Foggy hill station town">
+            <div class="overlay absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent flex items-end p-6">
+              <div class="text-white">
+                <p class="font-semibold text-lg">Misty Hill Charm</p>
+                <p class="text-sm opacity-90">Old town in fog</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- CTA -->
+      <section class="p-10 bg-gradient-to-r from-indigo-600/10 to-purple-600/10 text-center">
+        <h3 class="text-3xl font-bold text-gray-800 mb-4">Join the Community!</h3>
+        <p class="text-lg text-gray-700 mb-6">Sign in or sign up to share your own photos and stories</p>
+        <div class="flex justify-center gap-6">
+          <a href="/login" class="px-8 py-4 bg-indigo-600 text-white rounded-xl font-semibold hover:bg-indigo-700 transition shadow-lg">
+            Sign In
+          </a>
+          <a href="/signup" class="px-8 py-4 bg-purple-600 text-white rounded-xl font-semibold hover:bg-purple-700 transition shadow-lg">
+            Sign Up
+          </a>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,48 @@
+<div class="container mt-4 p-3 mb-2 bg-primary text-white">
+  
+  <!-- Search bar -->
+  <form class="d-flex mb-3" action="/search" method="GET">
+    <input class="form-control me-2" type="search" name="q" placeholder="Search by name..." aria-label="Search">
+    <button class="btn btn-outline-light" type="submit">
+      <i class="fa-solid fa-magnifying-glass"></i>
+    </button>
+  </form>
+
+  <!-- Submit button -->
+  <form action="/new" method="get" class="mb-3">
+    <button type="submit" class="btn btn-danger">Add New</button>
+  </form>
+
+  <!-- Search Results Section -->
+  <% if(results && results.length > 0){ %>
+    <h2>Search Results</h2>
+    <ul>
+      <% results.forEach(user => { %>
+        <li><%= user.name %></li>
+      <% }) %>
+    </ul>
+  <% } %>
+
+  <!-- Responsive grid for cards -->
+  <div class="row">
+    <% for(let data of alldata){ %>
+      <div class="col-12 col-md-6 col-lg-4 mb-4">
+        <div class="card h-100 shadow-sm">
+          <img src="<%= data.img %>" class="card-img-top" alt="User Image">
+          <div class="card-body">
+            <h5 class="card-title"><%= data.name %></h5>
+            <p class="card-text">
+              <strong>ID:</strong> <%= data._id %><br>
+              <strong>Deg:</strong> <%= data.deg %><br>
+              <strong>Age:</strong> <%= data.age %>
+            </p>
+            <a href="/update/<%= data._id %>" class="btn btn-sm btn-warning">Update</a>
+            <form action="/delete/<%= data._id %>?_method=DELETE" method="post" class="d-inline">
+              <button class="btn btn-sm btn-danger">Delete</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    <% } %>
+  </div>
+</div>

@@ -1,0 +1,16 @@
+<!-- flash -->
+    <!-- Submit button -->
+  <!-- addnew data -->
+   <% if (successMSG && successMSG.length > 0) { %>
+  <div class="alert alert-success">
+    <%= successMSG[0] %>
+  </div>
+<% } else if (Delete && Delete.length > 0) { %>
+  <div class="alert alert-danger">
+    <%= Delete[0] %>
+  </div>
+<% }else if (Update && Update.length>0){ %>
+  <div class="alert alert-warning">
+    <%= Update[0] %>
+  </div>
+  <% } %>

@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>All Posts</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  
+  <style>
+    :root {
+      --bg-primary: #ffffff;
+      --text-primary: #0f0f0f;
+      --text-secondary: #333333;
+      --card-bg: #ffffff;
+      --card-border: #e0e0e0;
+      --muted: #6c757d;
+      --navbar-bg: #dc3545;
+      --navbar-text: #ffffff;
+      --alert-bg: #f8f9fa;
+      --alert-text: #212529;
+      --alert-border: #dee2e6;
+    }
+
+    [data-theme="dark"] {
+      --bg-primary: #0a0a0a;
+      --text-primary: #e0e0e0;
+      --text-secondary: #b0b0b0;
+      --card-bg: #111111;
+      --card-border: #333333;
+      --muted: #888888;
+      --navbar-bg: #8b1e2f;          /* dark red tone */
+      --navbar-text: #f0f0f0;
+      --alert-bg: #1a1a1a;
+      --alert-text: #e0e0e0;
+      --alert-border: #444444;
+    }
+
+    body {
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      transition: background-color 0.4s ease, color 0.4s ease;
+      min-height: 100vh;
+    }
+
+    .navbar {
+      background-color: var(--navbar-bg) !important;
+      color: var(--navbar-text) !important;
+    }
+
+    .navbar .nav-link,
+    .navbar .navbar-brand {
+      color: var(--navbar-text) !important;
+    }
+
+    .card {
+      background-color: var(--card-bg);
+      border-color: var(--card-border);
+      color: var(--text-primary);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      transition: all 0.3s ease;
+    }
+
+    [data-theme="dark"] .card {
+      box-shadow: 0 2px 12px rgba(0,0,0,0.6);
+    }
+
+    .card-title {
+      color: var(--text-primary);
+    }
+
+    .card-text strong {
+      color: var(--text-primary);
+    }
+
+    .text-muted,
+    .text-muted-custom {
+      color: var(--muted) !important;
+    }
+
+    .alert {
+      background-color: var(--alert-bg);
+      color: var(--alert-text);
+      border-color: var(--alert-border);
+    }
+
+    .alert-info {
+      background-color: rgba(13, 110, 253, 0.1);
+      border-color: rgba(13, 110, 253, 0.3);
+      color: var(--text-primary);
+    }
+
+    [data-theme="dark"] .alert-info {
+      background-color: rgba(13, 110, 253, 0.2);
+      border-color: rgba(13, 110, 253, 0.5);
+    }
+
+    .btn-warning { color: #000 !important; }
+    [data-theme="dark"] .btn-warning { color: #000 !important; }
+
+    .dropdown-menu {
+      background-color: var(--card-bg);
+      border-color: var(--card-border);
+    }
+
+    .dropdown-item {
+      color: var(--text-primary);
+    }
+
+    .dropdown-item:hover,
+    .dropdown-item:focus {
+      background-color: var(--card-border);
+    }
+
+    .dropdown-divider {
+      border-top-color: var(--card-border);
+    }
+
+    .user-avatar {
+      background-color: #dc3545;
+      color: white;
+      border: 2px solid var(--navbar-text);
+    }
+
+    .theme-toggle-btn {
+      background: none;
+      border: none;
+      font-size: 1.6rem;
+      color: var(--navbar-text);
+      cursor: pointer;
+      padding: 0.4rem 0.8rem;
+    }
+
+    .no-image-placeholder {
+      background-color: var(--muted);
+      color: white;
+    }
+
+    a:not(.btn) {
+      color: #0d6efd;
+    }
+
+    [data-theme="dark"] a:not(.btn) {
+      color: #6ab0ff;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg fixed-top">
+    <div class="container-fluid">
+      <a class="navbar-brand fw-bold" href="/">Posts App</a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarContent">
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item"><a class="nav-link active" href="/">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="/api/new">Add New Post</a></li>
+        </ul>
+
+        <div class="d-flex align-items-center gap-3">
+          <button id="theme-toggle" class="theme-toggle-btn" title="Toggle theme">
+            <span id="theme-icon">🌙</span>
+          </button>
+
+          <% if (currentUser) { %>
+            <div class="dropdown">
+              <button class="btn btn-link p-0" type="button" data-bs-toggle="dropdown">
+                <div class="d-flex align-items-center gap-2">
+                  <div class="user-avatar rounded-circle d-flex align-items-center justify-content-center" style="width:38px;height:38px;font-weight:bold;">
+                    <%= (currentUser.username || currentUser.email || 'U').charAt(0).toUpperCase() %>
+                  </div>
+                  <span class="text-white d-none d-md-inline fw-medium">
+                    <%= currentUser.username || currentUser.email?.split('@')[0] || 'User' %>
+                  </span>
+                </div>
+              </button>
+              <ul class="dropdown-menu dropdown-menu-end">
+                <li><a class="dropdown-item" href="/profile"><i class="bi bi-person me-2"></i>Profile</a></li>
+                <li><a class="dropdown-item" href="/settings"><i class="bi bi-gear me-2"></i>Settings</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li>
+                  <form action="/logout" method="POST" class="m-0">
+                    <button type="submit" class="dropdown-item text-danger">
+                      <i class="bi bi-box-arrow-right me-2"></i>Logout
+                    </button>
+                  </form>
+                </li>
+              </ul>
+            </div>
+          <% } else { %>
+            <div class="d-flex gap-2">
+              <a href="/login" class="btn btn-sm btn-outline-light">Login</a>
+              <a href="/signup" class="btn btn-sm btn-light">Sign Up</a>
+            </div>
+          <% } %>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container mt-5 pt-3">
+    <!-- Flash + Debug -->
+    <%- include("partials/flash.ejs") %>
+
+    <div class="alert alert-info mb-4">
+      <strong>Debug:</strong><br>
+      Logged in as: <strong><%= currentUser ? (currentUser.username || currentUser.email || 'No name') : 'Not logged in' %></strong><br>
+      User ID: <strong><%= currentUser ? currentUser._id : 'No ID' %></strong>
+    </div>
+
+    <!-- Posts Grid -->
+    <div class="row">
+      <% if (alldata && alldata.length > 0) { %>
+        <% alldata.forEach(data => { %>
+          <div class="col-12 col-md-6 col-lg-4 mb-4">
+            <div class="card h-100 shadow">
+              <% if (data.img?.url) { %>
+                <img src="<%= data.img.url %>" class="card-img-top" alt="<%= data.name || 'image' %>" style="height:200px; object-fit:cover;">
+              <% } else { %>
+                <div class="card-img-top no-image-placeholder d-flex align-items-center justify-content-center" style="height:200px;">
+                  No Image
+                </div>
+              <% } %>
+              <div class="card-body">
+                <h5 class="card-title"><%= data.name || 'No Name' %></h5>
+                <p class="card-text">
+                  <strong>Degree:</strong> <%= data.deg || '-' %><br>
+                  <strong>Age:</strong> <%= data.age || '-' %><br>
+                  <strong class="text-muted-custom">Posted by:</strong> <%= data.owner?.username || data.owner?.email || 'Unknown' %>
+                </p>
+
+                <% if (currentUser && data.owner && currentUser._id?.toString() === data.owner._id?.toString()) { %>
+                  <div class="mt-3">
+                    <a href="/api/update/<%= data._id %>" class="btn btn-sm btn-warning me-2">Update</a>
+                    <form action="/api/delete/<%= data._id %>?_method=DELETE" method="POST" class="d-inline">
+                      <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Pakka delete karna hai?')">Delete</button>
+                    </form>
+                  </div>
+                <% } %>
+              </div>
+            </div>
+          </div>
+        <% }) %>
+      <% } else { %>
+        <div class="col-12">
+          <div class="alert text-center">
+            Koi post nahi mila. Pehla post <a href="/api/new">daal do!</a>
+          </div>
+        </div>
+      <% } %>
+    </div>
+  </div>
+
+  <%- include('partials/footer') %>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    const html = document.documentElement;
+    const toggleBtn = document.getElementById('theme-toggle');
+    const icon = document.getElementById('theme-icon');
+
+    function setTheme(theme) {
+      html.setAttribute('data-theme', theme);
+      localStorage.setItem('theme', theme);
+      icon.textContent = theme === 'dark' ? '☀️' : '🌙';
+    }
+
+    let saved = localStorage.getItem('theme');
+    if (!saved) {
+      saved = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    setTheme(saved);
+
+    toggleBtn.addEventListener('click', () => {
+      const curr = html.getAttribute('data-theme') || 'light';
+      setTheme(curr === 'dark' ? 'light' : 'dark');
+    });
+  </script>
+
+</body>
+</html>

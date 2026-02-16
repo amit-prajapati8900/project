@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth" x-data="{ darkMode: localStorage.getItem('darkMode') === 'true' }">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Home - Modern Dashboard</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Alpine.js for dark mode -->
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+  <!-- Font Awesome icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+  <style>
+    body { transition: background-color 0.5s, color 0.5s; }
+    .bg-image {
+      background-image: url('https://images.unsplash.com/photo-1557683316-973673baf926?auto=format&fit=crop&q=80&w=2000');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+    }
+    .glass {
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+  </style>
+</head>
+
+<body 
+  class="bg-image min-h-screen font-sans antialiased text-gray-100"
+  :class="{ 'dark': darkMode }"
+  x-init="
+    if (darkMode) document.documentElement.classList.add('dark');
+    else document.documentElement.classList.remove('dark');
+    $watch('darkMode', val => {
+      localStorage.setItem('darkMode', val);
+      document.documentElement.classList.toggle('dark', val);
+    })
+  "
+>
+
+  <!-- Dark Mode Toggle -->
+  <button 
+    @click="darkMode = !darkMode"
+    class="fixed top-6 right-6 z-50 p-4 rounded-full glass text-white hover:bg-white/20 transition shadow-xl"
+  >
+    <i x-show="!darkMode" class="fas fa-moon text-2xl"></i>
+    <i x-show="darkMode" class="fas fa-sun text-2xl"></i>
+  </button>
+
+  <!-- Main Content -->
+  <div class="container mx-auto px-6 py-16 md:py-24">
+
+    <!-- Hero Section -->
+    <header class="text-center mb-16">
+      <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight drop-shadow-2xl">
+        Welcome Back, Prajapati
+      </h1>
+      <p class="mt-6 text-xl md:text-2xl text-gray-200 dark:text-gray-300 max-w-3xl mx-auto">
+        Your modern space in Lucknow • Explore, Create, Enjoy
+      </p>
+    </header>
+
+    <!-- Quick Stats / Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+      <div class="glass rounded-2xl p-8 text-center shadow-2xl transform hover:scale-105 transition">
+        <i class="fas fa-users text-5xl text-blue-400 mb-4"></i>
+        <h3 class="text-4xl font-bold">2,057</h3>
+        <p class="text-gray-300 mt-2">Total Profiles</p>
+      </div>
+
+      <div class="glass rounded-2xl p-8 text-center shadow-2xl transform hover:scale-105 transition">
+        <i class="fas fa-eye text-5xl text-green-400 mb-4"></i>
+        <h3 class="text-4xl font-bold">24.5k</h3>
+        <p class="text-gray-300 mt-2">Views This Month</p>
+      </div>
+
+      <div class="glass rounded-2xl p-8 text-center shadow-2xl transform hover:scale-105 transition">
+        <i class="fas fa-rocket text-5xl text-purple-400 mb-4"></i>
+        <h3 class="text-4xl font-bold">+18%</h3>
+        <p class="text-gray-300 mt-2">Growth</p>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="flex flex-col sm:flex-row justify-center gap-6 mb-20">
+      <a href="/api/new" 
+         class="inline-flex items-center px-10 py-5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-xl font-bold rounded-xl shadow-lg hover:from-blue-700 hover:to-indigo-700 transform hover:scale-105 transition">
+        <i class="fas fa-plus mr-3 text-2xl"></i> Add New Profile
+      </a>
+
+      <a href="/api" 
+         class="inline-flex items-center px-10 py-5 glass text-white text-xl font-bold rounded-xl shadow-lg hover:bg-white/15 transition">
+        <i class="fas fa-list mr-3 text-2xl"></i> View All Profiles
+      </a>
+    </div>
+
+    <!-- Footer Note -->
+    <footer class="text-center text-gray-400 dark:text-gray-500 text-lg">
+      © 2026 • Made with ❤️ in Lucknow, Uttar Pradesh
+    </footer>
+
+  </div>
+
+</body>
+</html>

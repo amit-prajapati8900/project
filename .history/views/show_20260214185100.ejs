@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>All Posts - Modern View</title>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    .glass-card {
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+    .gradient-bg {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 min-h-screen font-sans antialiased">
+
+  <div class="flex h-screen overflow-hidden">
+
+    <!-- Sidebar (same style as dashboard) -->
+    <aside class="hidden md:block w-64 bg-white/80 backdrop-blur-md shadow-xl border-r border-white/30">
+      <div class="p-6">
+        <h1 class="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+          Community Hub
+        </h1>
+      </div>
+      <nav class="mt-6">
+        <ul class="space-y-1 px-4">
+          <li><a href="/" class="flex items-center px-4 py-3 text-gray-700 hover:bg-white/50 rounded-lg transition"><span class="mr-3 text-lg">🏠</span> Home</a></li>
+          <li><a href="/api" class="flex items-center px-4 py-3 bg-gradient-to-r from-indigo-50 to-purple-50 text-indigo-700 rounded-lg font-medium"><span class="mr-3 text-lg">📝</span> All Posts</a></li>
+          <li><a href="/api/new" class="flex items-center px-4 py-3 text-gray-700 hover:bg-white/50 rounded-lg transition"><span class="mr-3 text-lg">➕</span> Add New</a></li>
+          <li><a href="#" class="flex items-center px-4 py-3 text-gray-700 hover:bg-white/50 rounded-lg transition"><span class="mr-3 text-lg">👤</span> Profile</a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <!-- Main Content Area -->
+    <div class="flex-1 flex flex-col overflow-hidden">
+
+      <!-- Top Navbar -->
+      <header class="bg-white/80 backdrop-blur-md shadow-sm border-b border-white/30">
+        <div class="flex items-center justify-between px-6 py-4">
+          <div class="flex items-center gap-4">
+            <!-- Mobile menu button -->
+            <button class="md:hidden text-gray-600 focus:outline-none">
+              <svg class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            </button>
+            <h2 class="text-xl font-semibold text-gray-800">All Posts</h2>
+          </div>
+
+          <div class="flex items-center gap-5">
+            <a href="/api/new" class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-5 py-2.5 rounded-lg font-medium hover:brightness-110 transition shadow-md">
+              + Add New Post
+            </a>
+            <div class="flex items-center gap-3">
+              <img class="h-10 w-10 rounded-full ring-2 ring-indigo-400/50 object-cover"
+                   src="https://ui-avatars.com/api/?name=<%= currentUser ? (currentUser.username || currentUser.email || 'User') : 'Guest' %>&background=6D28D9&color=fff"
+                   alt="User"/>
+              <div class="hidden sm:block">
+                <p class="font-medium text-gray-800 text-sm">
+                  <%= currentUser ? (currentUser.username || currentUser.email || 'Guest') : 'Guest' %>
+                </p>
+                <p class="text-xs text-gray-500">Member</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Main Content -->
+      <main class="flex-1 overflow-y-auto p-6">
+
+        <!-- Quick Stats Row (optional – looks nice) -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
+          <div class="glass-card rounded-xl p-5 text-center shadow-lg">
+            <p class="text-sm text-gray-600">Total Posts</p>
+            <p class="text-3xl font-bold text-indigo-700"><%= alldata?.length || 0 %></p>
+          </div>
+          <div class="glass-card rounded-xl p-5 text-center shadow-lg">
+            <p class="text-sm text-gray-600">Your Posts</p>
+            <p class="text-3xl font-bold text-purple-700">...</p> <!-- You can calculate later -->
+          </div>
+          <div class="glass-card rounded-xl p-5 text-center shadow-lg">
+            <p class="text-sm text-gray-600">With Image</p>
+            <p class="text-3xl font-bold text-pink-600"><%= alldata?.filter(d => d.img?.url)?.length || 0 %></p>
+          </div>
+          <div class="glass-card rounded-xl p-5 text-center shadow-lg">
+            <p class="text-sm text-gray-600">Active Today</p>
+            <p class="text-3xl font-bold text-indigo-600">12</p>
+          </div>
+        </div>
+
+        <!-- Cards Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+
+          <% if (alldata && alldata.length > 0) { %>
+            <% alldata.forEach(data => { %>
+              <div class="glass-card rounded-2xl shadow-xl overflow-hidden transform hover:scale-[1.03] hover:shadow-2xl transition-all duration-300 flex flex-col h-full">
+
+                <!-- Image -->
+                <% if (data.img?.url) { %>
+                  <img src="<%= data.img.url %>" class="w-full h-48 object-cover" alt="<%= data.name || 'Post image' %>">
+                <% } else { %>
+                  <div class="w-full h-48 bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center text-gray-500">
+                    No Image
+                  </div>
+                <% } %>
+
+                <!-- Content -->
+                <div class="p-5 flex flex-col flex-grow">
+                  <h5 class="text-lg font-semibold text-gray-800 mb-3 line-clamp-2">
+                    <%= data.name || 'Untitled Post' %>
+                  </h5>
+
+                  <div class="text-sm text-gray-600 space-y-1.5 mb-4 flex-grow">
+                    <p><strong>Degree:</strong> <%= data.deg || '—' %></p>
+                    <p><strong>Age:</strong> <%= data.age || '—' %></p>
+                    <p class="text-indigo-600 font-medium">
+                      Posted by @<%= data.owner?.username || 'anonymous' %>
+                    </p>
+                  </div>
+
+                  <!-- Action buttons (only for owner) -->
+                  <% if (currentUser && data.owner && currentUser._id?.toString() === data.owner._id?.toString()) { %>
+                    <div class="flex gap-3 mt-4">
+                      <a href="/api/update/<%= data._id %>"
+                         class="flex-1 text-center py-2 bg-yellow-500 hover:bg-yellow-600 text-white rounded-lg transition font-medium text-sm">
+                        Update
+                      </a>
+                      <form action="/api/delete/<%= data._id %>?_method=DELETE" method="POST" class="flex-1">
+                        <button type="submit"
+                                onclick="return confirm('Delete this post permanently?')"
+                                class="w-full py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition font-medium text-sm">
+                          Delete
+                        </button>
+                      </form>
+                    </div>
+                  <% } else { %>
+                    <div class="mt-4 text-center text-sm text-gray-500 italic">
+                      View only
+                    </div>
+                  <% } %>
+                </div>
+              </div>
+            <% }) %>
+          <% } else { %>
+            <div class="col-span-full text-center py-16">
+              <div class="text-6xl mb-4">📪</div>
+              <h3 class="text-2xl font-semibold text-gray-700 mb-3">No posts yet</h3>
+              <p class="text-gray-600 mb-6">Be the first one to share something!</p>
+              <a href="/api/new" class="inline-block bg-indigo-600 text-white px-8 py-3 rounded-xl font-medium hover:bg-indigo-700 transition shadow-lg">
+                + Create First Post
+              </a>
+            </div>
+          <% } %>
+
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+</body>
+</html>
