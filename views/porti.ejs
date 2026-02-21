@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Prajapati • Creative Portfolio</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="stylesheet" href="/portfolio.css">
+  
+</head>
+<body>
+
+  <nav id="navbar">
+    <div class="nav-container">
+      <div class="logo">AMIT PRAJAPATI</div>
+      <ul class="nav-links">
+        <li><a href="#projects"class="active">ABOUT</a></li>
+        <li><a href="/api/home">PROJECT</a></li>
+        <li><a href="/api/about">ABOUT</a></li>
+        <li><a href="#contact">CONTACT</a></li>
+      </ul>
+    </div>
+  </nav>
+  <section id="hero">
+    <div class="hero-content">
+      <h1>Creative Developer<br>& Designer</h1>
+      <h2>Building beautiful, fast & meaningful digital experiences</h2>
+      <div>
+        <a href="#projects" class="btn">View My Work</a>
+        <a href="" class="btn btn-outline">Let's Talk</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="projects">
+    <h2 class="section-title">PICTUTE</h2>
+    <div class="projects-grid">
+
+      <div class="project-card">
+        <img src="/images/IMG-20250712-WA0090.jpg" alt="Project 1" class="project-img">
+        <div class="project-info">
+          <h3>AMIT PRAJAPATI</h3>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <img src="/images/IMG-20250710-WA0260.jpg" alt="Project 2" class="project-img">
+        <div class="project-info">
+          <h3>TEAM MEMBERS</h3>
+          <h5>ASHUTOSH MAURYA</h5>
+
+        </div>
+      </div>
+<!-- New Project Added -->
+      <div class="project-card">
+        <img src="/images/Screenshot 2026-02-14 182109.png" alt="Project 4" class="project-img">
+        <div class="project-info">
+          <h3>OVERVIEWS PROJECT</h3>
+          <p>NODE.JS •JS & EJS • CRUD OPRATION AND ERROR HANDEL AND AUTHETICATION & AUTHORIZATION <p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2026 Prajapati — Made with passion in Allahabad</p>
+    <div class="social-links">
+      <a href="https://github.com/amit-prajapati8900"><i class="fab fa-github"></i></a>
+      <a href="https://www.linkedin.com/in/amit-prajapati-15697636b/"><i class="fab fa-linkedin-in"></i></a>
+      <a href=""><i class="fab fa-instagram"></i></a>
+    </div>
+  </footer>
+
+  <script>
+    // Navbar scroll effect
+    window.addEventListener('scroll', () => {
+      document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+    });
+
+    // Smooth scroll for nav links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+          behavior: 'smooth'
+        });
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,9 +1,11 @@
 const mongoose = require("mongoose");
 const Data = require("./data.js");
+const dbUrl=process.env.ATLASDB_URL;
+
 
 async function main() {
   try {
-    await mongoose.connect("mongodb://127.0.0.1:27017/jcc");
+    await mongoose.connect(dbUrl);
     console.log("Database connected");
 
     // Base entries

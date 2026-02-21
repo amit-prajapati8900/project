@@ -1,9 +1,11 @@
 const mongoose = require("mongoose");
 const passportLocalMongoose = require("passport-local-mongoose").default;
+const dbUrl=process.env.ATLASDB_URL;
+
 main().then(() => console.log("DB connected")).catch(err => console.log(err));
 
 async function main() {
-  await mongoose.connect("mongodb://127.0.0.1:27017/jcc");
+  await mongoose.connect(dbUrl);
 }
 
 const schemaPwd = new mongoose.Schema({

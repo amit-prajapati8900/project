@@ -1,4 +1,7 @@
 {
+  "engines":{
+    "node":"22.13.1"
+  },
   "name": "dsa2026java",
   "version": "1.0.0",
   "main": "mongo.js",
@@ -14,6 +17,7 @@
     "bootstrap-icons": "^1.13.1",
     "cloudinary": "^2.9.0",
     "connect-flash": "^0.1.1",
+    "connect-mongo": "^3.2.0",
     "dotenv": "^17.2.4",
     "ejs": "^4.0.1",
     "express": "^5.2.1",

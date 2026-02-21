@@ -32,6 +32,10 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.static(path.join(__dirname,"views")));
 // showListing..come from ..listing.js
+router.get("/",(Listing.porti));
+router.get("/about",(Listing.about));
+
+
 router.get("/home",validedata,asyncError(Listing.showListing));
 // delete route
 router.delete("/delete/:id", athetication, asyncError(Listing.delete));

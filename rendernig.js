@@ -17,7 +17,10 @@ const path = require("path");
 const ExpressError = require("./Error/ExpressError.js");
 // const Data = require("./insertData");
 // const asyncError = require("./Error/asyncError");
-const session = require("express-session"); 
+// const session = require("express-session");
+// const MongoStore = require("connect-mongo");
+// const MongoStore = require("connect-mongo")(session);
+
 //cookies
 const flash = require("connect-flash");
 app.use(express.static('public'));
@@ -30,15 +33,41 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const User = require("./database/Paswd.js");
 const signUp = require("./routes/signLogin.js");
+const dbUrl=process.env.ATLASDB_URL;
+
 //password
 app.use(methodOverride('_method'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname,"views")));
 app.use(flash());
-app.use(session({secret:"mylastwebpag",resave:false,saveUninitialized:true,cookie:{expires: new Date(Date.now() + 7*24*60*60*1000),maxAge:7*24*60*60*1000,httpOnly:true}}));
+
+const session = require("express-session");
+const MongoStore = require("connect-mongo")(session);
+
+app.use(session({
+  secret: process.env.SECRET_API,
+  resave: false,
+  saveUninitialized: true,
+  store: new MongoStore({
+    url: dbUrl,
+    crypto: {
+      secret:process.env.SECRET_API
+    },
+    touchAfter: 24 * 3600
+  }),
+  cookie: {
+    expires: new Date(Date.now() + 7*24*60*60*1000),
+    maxAge: 7*24*60*60*1000,
+    httpOnly: true
+  }
+}));
+
+
+
 // password
 app.use(passport.initialize());
 app.use(passport.session());
@@ -51,8 +80,9 @@ passport.deserializeUser(User.deserializeUser());
 main().then((res)=>{console.log("database is working")})
 .catch((err)=>{console.log(err)});
 
+
 async function main() {
-   await mongoose.connect("mongodb://127.0.0.1:27017/jcc");
+   await mongoose.connect(dbUrl);
 }
 //flash
 app.use((req,res,next)=>{

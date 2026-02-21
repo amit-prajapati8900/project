@@ -1,6 +1,12 @@
 const Data = require("../database/data.js");
 const User = require("../database/Paswd");
 
+module.exports.porti=(req,res)=>{
+   res.render("porti.ejs");
+}
+module.exports.about=(req,res)=>{ 
+res.render("about"); // about.ejs render karega
+}
 
 // show route
 module.exports.showListing = async (req, res, next) => {
@@ -10,7 +16,8 @@ module.exports.showListing = async (req, res, next) => {
    next(new ExpressError(400,"something went wruong "));
   }   
 //   console.log(alldata);
-  res.render("show.ejs",{alldata,req});                   
+  res.render("show.ejs",{alldata,req}); 
+  
 }
 
 // delete route
